@@ -1,25 +1,244 @@
+{% load static %}
+<html>
+
 <head>
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet">
+    <title>Linux set-top-box Controller</title>
+    <nav class="navbar navbar-light bg-light">
+        <h2 class="navbar-brand mb-0 h1" style="font-family: 'Nunito', sans-serif;">Linux set-top-box Controller</h2>
+    </nav>
+    <br>
 </head>
 
 <body>
-    <div class="checkbox">
-        <label>
-            <input type="checkbox" data-toggle="toggle">
-            Option one is enabled
-        </label>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Upload File -->
+            <div class="col-md-6">
+                <div class="card text-center mb-3">
+                    <div class="card-body">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" style="font-family: 'Nunito', sans-serif;"
+                                    id="inputGroupFileAddon01">Upload</span>
+                            </div>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="inputGroupFile01"
+                                    aria-describedby="inputGroupFileAddon01">
+                                <label class="custom-file-label"
+                                    style="font-family: 'Nunito', sans-serif;text-align:start;"
+                                    for="inputGroupFile01">Choose file</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Select Mode -->
+            <div class="col-md-6">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <ul class="nav nav-pills mb-2 nav-fill" id="pills-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="pills-full-tab" data-toggle="pill" href="#pills-full"
+                                    role="tab" aria-controls="pills-full" aria-selected="true">Fully-Automatic</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="pills-semi-tab" data-toggle="pill" href="#pills-semi" role="tab"
+                                    aria-controls="pills-semi" aria-selected="false">Semi-Automatic</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="pills-manual-tab" data-toggle="pill" href="#pills-manual"
+                                    role="tab" aria-controls="pills-manual" aria-selected="false">Manual</a>
+                            </li>
+                        </ul>
+                        <!-- <div class="tab-content" id="pills-tabContent">
+	                            <div class="tab-pane fade show active" id="pills-full" role="tabpanel"
+	                                aria-labelledby="pills-full-tab">...</div>
+	                            <div class="tab-pane fade" id="pills-semi" role="tabpanel"
+	                                aria-labelledby="pills-semi-tab">...</div>
+	                            <div class="tab-pane fade" id="pills-manual" role="tabpanel"
+	                                aria-labelledby="pills-manual-tab">...</div>
+	                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Switches -->
+            <div class="col-md-8">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <table width="80%">
+                            <tr>
+                                <th rowspan="2">
+                                    <label class="switch">
+                                        <input type="checkbox" id="switchMedia">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </th>
+                                <td>
+                                    <label class="switch-label" for="switchMedia">Media Sharing</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Detail...</td>
+                            </tr>
+
+                            <tr>
+                                <th rowspan="2">
+                                    <label class="switch">
+                                        <input type="checkbox" id="switchHomeEnt">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </th>
+                                <td>
+                                    <label class="switch-label" for="switchHomeEnt">Home Entertainment</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Detail...</td>
+                            </tr>
+
+                            <tr>
+                                <th rowspan="2">
+                                    <label class="switch">
+                                        <input type="checkbox" id="switchP2P">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </th>
+                                <td>
+                                    <label class="switch-label" for="switchP2P">Peer to Peer</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Detail...</td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Tips -->
+            <div class="col-md-4">
+                <div class="card text-center mb-3" style="font-family: 'Nunito', sans-serif;">
+                    <div class="card-header"></div>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <img src="https://image.flaticon.com/icons/svg/1632/1632592.svg" width=10%>
+                            Tips
+                        </h5>
+                        <p class="card-text"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="checkbox disabled">
-        <label>
-            <input type="checkbox" disabled data-toggle="toggle">
-            Option two is disabled
-        </label>
-    </div>
-    <div class="checkbox disabled">
-        <label>
-            <input type="checkbox" disabled data-toggle="toggle">
-            Option two is disabled
-        </label>
-    </div>
+
+    <script>
+        const fileInput = document.querySelector('#file-js-example input[type=file]');
+        fileInput.onchange = () => {
+            if (fileInput.files.length > 0) {
+                const fileName = document.querySelector('#file-js-example .file-name');
+                fileName.textContent = fileInput.files[0].name;
+            }
+        }
+    </script>
+    <script src="{% static 'bootstrap/js/jquery.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 </body>
+
+<style>
+    .navbar {
+        padding-top: 1%;
+        padding-bottom: 1%;
+    }
+
+    /* The switch - the box around the slider */
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+    /* Hide default HTML checkbox */
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    /* The slider */
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input:checked+.slider {
+        background-color: #2196F3;
+    }
+
+    input:focus+.slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked+.slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
+
+    .container-fluid {
+        width: 80%;
+    }
+
+    .card-body {
+        font-family: 'Nunito', sans-serif
+    }
+
+    .input-group {
+        padding-top: 0.5%;
+        padding-bottom: 0.5%;
+    }
+
+    .switch-label {
+        position: relative;
+        font-family: 'Nunito', sans-serif;
+        font-size: x-large;
+    }
+</style>
+
+</html>

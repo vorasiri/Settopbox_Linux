@@ -43,15 +43,15 @@
                     <div class="card-body">
                         <ul class="nav nav-pills mb-2 nav-fill" id="pills-tab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" id="pills-full-tab" data-toggle="pill" href="#pills-full"
+                                <a class="nav-link {% if StateHolder.controlDegree == 2 %}active{% endif %}" id="pills-full-tab" data-toggle="pill" href="#pills-full"
                                     role="tab" aria-controls="pills-full" aria-selected="true">Fully-Automatic</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="pills-semi-tab" data-toggle="pill" href="#pills-semi" role="tab"
+                                <a class="nav-link {% if StateHolder.controlDegree == 1 %}active{% endif %}" id="pills-semi-tab" data-toggle="pill" href="#pills-semi" role="tab"
                                     aria-controls="pills-semi" aria-selected="false">Semi-Automatic</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="pills-manual-tab" data-toggle="pill" href="#pills-manual"
+                                <a class="nav-link {% if StateHolder.controlDegree == 0 %}active{% endif %}" id="pills-manual-tab" data-toggle="pill" href="#pills-manual"
                                     role="tab" aria-controls="pills-manual" aria-selected="false">Manual</a>
                             </li>
                         </ul>
@@ -77,7 +77,7 @@
                             <tr>
                                 <th rowspan="2">
                                     <label class="switch">
-                                        <input type="checkbox" id="switchMedia">
+                                        <input type="checkbox" id="switchMedia" {% if StateHolder.mediaSharing == 1 %}checked{% endif %}>
                                         <span class="slider round"></span>
                                     </label>
                                 </th>
@@ -92,7 +92,7 @@
                             <tr>
                                 <th rowspan="2">
                                     <label class="switch">
-                                        <input type="checkbox" id="switchHomeEnt">
+                                        <input type="checkbox" id="switchHomeEnt" {% if StateHolder.homeEntertain == 1 %}checked{% endif %}>
                                         <span class="slider round"></span>
                                     </label>
                                 </th>
@@ -107,7 +107,7 @@
                             <tr>
                                 <th rowspan="2">
                                     <label class="switch">
-                                        <input type="checkbox" id="switchP2P">
+                                        <input type="checkbox" id="switchP2P" {% if StateHolder.peer2peer == 1 %}checked{% endif %}>
                                         <span class="slider round"></span>
                                     </label>
                                 </th>

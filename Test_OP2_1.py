@@ -74,7 +74,52 @@ def Check_total_bandwidth():
         num_slide+=1
         #Dirt_value_all[time_count]=List_bandwicth_all
     return List_bandwicth_all[-2],List_bandwicth_all[-1]
-def return_loop_all(Program):
+def Check_minidlna():
+    x = subprocess.Popen(['sudo nethogs -c '+"10"+' -t'],shell=True,stdout=subprocess.PIPE)
+    x=x.stdout.read()
+    x=str(x)
+    List_num=[]
+    List_x=[]
+    num_ref=0
+    x=x.split("\\n")
+    for i in x:
+        x=i.split("\\t")
+        
+
+        List_x.append(x)
+        num_ref+=1
+        if i=='Refreshing:':
+            List_num.append(num_ref)
+
+    List_bandwicth_all=[]
+    bandwicth_sent=0
+    bandwicth_received=0
+    
+    num_slide=0
+    for i in List_num:
+        if num_slide==9:
+                for p in range(List_num[num_slide],len(List_x)-1):
+                    #print(p)
+                    List_bandwicth=List_x[p]
+                    if 'minidlnad' in  List_bandwicth[0] or '8200' in List_bandwicth[0]:
+                        List_bandwicth_all.append(List_bandwicth[1])
+                        List_bandwicth_all.append(List_bandwicth[2])
+
+        else:
+            for p in range(List_num[num_slide],List_num[num_slide+1]-2):
+                    #print(p)
+                    List_bandwicth=List_x[p]
+                    if 'minidlnad' in  List_bandwicth[0]  or '8200' in List_bandwicth[0] :
+                        List_bandwicth_all.append(List_bandwicth[1])
+                        List_bandwicth_all.append(List_bandwicth[2])
+
+
+        num_slide+=1
+    
+    return List_bandwicth_all    #Dirt_value_all[time_count]=List_bandwicth_all
+    #return List_bandwicth_all[-2],List_bandwicth_all[-1]
+
+def return_loop(Program):
     num=0
     #Program_close=Kill_program(Program)
     while str(subprocess.Popen(['pgrep '+Program],shell=True,stdout=subprocess.PIPE).stdout.read())!="b''":
@@ -83,17 +128,29 @@ def return_loop_all(Program):
         Dirt_value_all['Set'+str(num)]=[x]
         print(Dirt_value_all)
     return Dirt_value_all
+def return_loop_minidlna():
+    count=True
+    while str(subprocess.Popen(['pgrep minidlna'],shell=True,stdout=subprocess.PIPE).stdout.read())!="b''":
+        x=Check_minidlna()
+        if x!=[]:
+            x=[x[-2],x[-1]]
+        print(x)
+    
         
     
 
 #Check_total_bandwidth()
-return_loop_all('transmission')
+#return_loop_all('transmission')
 #print(Dirt_value_all)
 
 #x=os.system('pkill transmission')
 #x=subprocess.check_output('pgrep transmission',shell=True)
 #x=Kill_program('transmission')
 #print(x)
-#x = subprocess.Popen(['apropos transmission'],shell=True,stdout=subprocess.PIPE)
-#x=x.stdout.read()
+# x = subprocess.Popen(['apropos transmission'],shell=True,stdout=subprocess.PIPE)
+# x=x.stdout.read()
+# x=str(x)
+# x=x.split('\\n')
 #print(x)
+# print(Check_minidlna())
+return_loop_minidlna()

@@ -86,7 +86,8 @@ env.bak/
 venv.bak/ 
 
 # mkdocs documentation 
-/site 
+/site
+static/
 
 # mypy 
 .mypy_cache/ 

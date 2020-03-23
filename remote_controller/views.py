@@ -17,19 +17,16 @@ def home(request):
         if request.POST.get('switchP2P'):
             state.peer2peer = 1
 
-        myfile = request.FILES['inputGroupFile01']
-        fs = FileSystemStorage(location = 'torrentFiles/')
-        filename = fs.save(myfile.name, myfile)
-        uploaded_file_url = fs.url(filename)
-        if '.torrent' in filename:
-            os.system("transmission-remote -n 'transmission:transmission' -a \'" + os.path.abspath('torrentFiles/'+filename) + "\'")
-            print('start downloading: ' + filename)
-        else:
-            print('bad file')
-        try:
-            pass
-        except:
-            pass
+        if request.FILES.get('inputGroupFile01',False):
+            myfile = request.FILES['inputGroupFile01']
+            fs = FileSystemStorage(location = 'torrentFiles/')
+            filename = fs.save(myfile.name, myfile)
+            uploaded_file_url = fs.url(filename)
+            if '.torrent' in filename:
+                os.system("transmission-remote -n 'transmission:transmission' -a \'" + os.path.abspath('torrentFiles/'+filename) + "\'")
+                print('start downloading: ' + filename)
+            else:
+                print('bad file')
 
     else:
         if request.GET.get('pills'):

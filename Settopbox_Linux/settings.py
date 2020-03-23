@@ -25,7 +25,7 @@ SECRET_KEY = '+5reg0tvem55icfqv1uaz_==_e+g76mywg6be^z$3m!d^0y-1v'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['settopbox.ddns.net']
+ALLOWED_HOSTS = ['settopbox.ddns.net','127.0.0.1']
 
 
 # Application definition
@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'remote_controller',
-    'bootstrap',
 ]
 
 MIDDLEWARE = [

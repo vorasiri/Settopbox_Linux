@@ -24,9 +24,6 @@ def home(request):
         except:
             pass
 
-        state.save()
-        return HttpResponseRedirect('/')
-
     else:
         if request.GET.get('pills'):
             mode = request.GET.get('pills')

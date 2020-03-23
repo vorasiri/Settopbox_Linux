@@ -1,6 +1,7 @@
 from django.shortcuts import render,HttpResponseRedirect
 from remote_controller.models import StateHolder
 from django.core.files.storage import FileSystemStorage
+import os
 
 # Create your views here.
 def home(request):
@@ -16,11 +17,17 @@ def home(request):
         if request.POST.get('switchP2P'):
             state.peer2peer = 1
 
+        myfile = request.FILES['inputGroupFile01']
+        fs = FileSystemStorage(location = 'torrentFiles/')
+        filename = fs.save(myfile.name, myfile)
+        uploaded_file_url = fs.url(filename)
+        if '.torrent' in filename:
+            os.system("transmission-remote -n 'transmission:transmission' -a \'" + os.path.abspath('torrentFiles/'+filename) + "\'")
+            print('start downloading: ' + filename)
+        else:
+            print('bad file')
         try:
-            myfile = request.FILES['inputGroupFile01']
-            fs = FileSystemStorage(location = 'torrentFiles/')
-            filename = fs.save(myfile.name, myfile)
-            uploaded_file_url = fs.url(filename)
+            pass
         except:
             pass
 

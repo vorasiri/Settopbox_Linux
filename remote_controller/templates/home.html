@@ -20,19 +20,22 @@
             <div class="col-md-6">
                 <div class="card text-center mb-3">
                     <div class="card-body">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" style="font-family: 'Nunito', sans-serif;"
-                                    id="inputGroupFileAddon01">Upload</span>
+                        <form action="" method="post" id="uploadTorrent" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" style="font-family: 'Nunito', sans-serif;"
+                                        id="inputGroupFileAddon01">Upload</span>
+                                </div>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="inputGroupFile01" name="inputGroupFile01"
+                                        onChange="this.form.submit()" aria-describedby="inputGroupFileAddon01">
+                                    <label class="custom-file-label"
+                                        style="font-family: 'Nunito', sans-serif;text-align:start;"
+                                        for="inputGroupFile01">Choose file</label>
+                                </div>
                             </div>
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="inputGroupFile01"
-                                    aria-describedby="inputGroupFileAddon01">
-                                <label class="custom-file-label"
-                                    style="font-family: 'Nunito', sans-serif;text-align:start;"
-                                    for="inputGroupFile01">Choose file</label>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>

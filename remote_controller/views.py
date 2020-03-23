@@ -19,7 +19,7 @@ def home(request):
 
         if request.FILES.get('inputGroupFile01',False):
             myfile = request.FILES['inputGroupFile01']
-            fs = FileSystemStorage(location = 'torrentFiles/')
+            fs = FileSystemStorage(location = '/home/kong/djangoProject/Settopbox_Linux/torrentFiles/')
             filename = fs.save(myfile.name, myfile)
             uploaded_file_url = fs.url(filename)
             if '.torrent' in filename:

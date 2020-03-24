@@ -29,8 +29,8 @@ def detectScreen():
     return allmonitors
 
 # reading current bandwidth of mediaSharing service
-def Check_minidlna():
-    x = subprocess.Popen(['sudo nethogs -c '+"10"+' -d 2'+' -t'],shell=True,stdout=subprocess.PIPE)
+def Check_minidlna(mysudo = '123456'):
+    x = subprocess.Popen(['echo ' + mysudo + '|sudo nethogs -c '+"2"+' -t'],shell=True,stdout=subprocess.PIPE)
     x=x.stdout.read()
     x=str(x)
     List_num=[]
@@ -52,7 +52,7 @@ def Check_minidlna():
     
     num_slide=0
     for i in List_num:
-        if num_slide==9:
+        if num_slide==1:
                 for p in range(List_num[num_slide],len(List_x)-1):
                     #print(p)
                     List_bandwicth=List_x[p]
@@ -81,28 +81,30 @@ previousState = readUserSetting()
 while True: 
     currentState = readUserSetting()
     
-    if currentState.controlDegree != previousState.controlDegree:
-        if currentState.controlDegree > 0:
-            if currentState.controlDegree > 1:
-                dlnaActivity = False
-                for i in Check_minidlna():
-                    if float(i) > 0:
-                        dlnaActivity = True
+    
+    if currentState.controlDegree > 0:
+        if currentState.controlDegree > 1:
+            dlnaActivity = False
+            for i in Check_minidlna():
+                if float(i) > 0:
+                    dlnaActivity = True
 
-                if dlnaActivity:
-                    currentState.peer2peer = 0
-                else:
-                    currentState.peer2peer = 1
+            if dlnaActivity:
+                currentState.peer2peer = 0
+            else:
+                currentState.peer2peer = 1
 
-                currentState.save()
+            currentState.save()
 
-            if len(detectScreen()) == 2: # Others screen was on
-                currentState.homeEntertain = 1
+        if len(detectScreen()) == 2: # Others screen was on
+            currentState.homeEntertain = 1
+            currentState.mediaSharing = 0
+        else:
+            if currentState.homeEntertain == 1:
                 currentState.mediaSharing = 0
             else:
-                currentState.homeEntertain = 0
                 currentState.mediaSharing = 1
-            currentState.save()
+        currentState.save()
 
     if currentState.mediaSharing != previousState.mediaSharing:
         if currentState.mediaSharing == 1: 

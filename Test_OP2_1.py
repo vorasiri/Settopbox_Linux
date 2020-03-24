@@ -75,7 +75,7 @@ def Check_total_bandwidth():
         #Dirt_value_all[time_count]=List_bandwicth_all
     return List_bandwicth_all[-2],List_bandwicth_all[-1]
 def Check_minidlna():
-    x = subprocess.Popen(['sudo nethogs -c '+"10"+' -t'],shell=True,stdout=subprocess.PIPE)
+    x = subprocess.Popen(['sudo nethogs -c '+"10"+' -d 2'+' -t'],shell=True,stdout=subprocess.PIPE)
     x=x.stdout.read()
     x=str(x)
     List_num=[]
@@ -152,5 +152,5 @@ def return_loop_minidlna():
 # x=str(x)
 # x=x.split('\\n')
 #print(x)
-# print(Check_minidlna())
-return_loop_minidlna()
+print(Check_minidlna())
+# return_loop_minidlna()

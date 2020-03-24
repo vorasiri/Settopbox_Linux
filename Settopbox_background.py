@@ -30,7 +30,7 @@ def detectScreen():
 
 # reading current bandwidth of mediaSharing service
 def Check_minidlna():
-    x = subprocess.Popen(['sudo nethogs -c '+"1"+' -t'],shell=True,stdout=subprocess.PIPE)
+    x = subprocess.Popen(['sudo nethogs -c '+"10"+' -d 2'+' -t'],shell=True,stdout=subprocess.PIPE)
     x=x.stdout.read()
     x=str(x)
     List_num=[]
@@ -73,27 +73,42 @@ def Check_minidlna():
     
     return List_bandwicth_all
 
-def return_loop_minidlna():
-    count=True
-    while str(subprocess.Popen(['pgrep minidlna'],shell=True,stdout=subprocess.PIPE).stdout.read())!="b''":
-        x=Check_minidlna()
-        if x!=[]:
-            x=[x[-2],x[-1]]
-        print(x)
-
 
 # setup 
-mySudoPass = '123456'
 previousState = readUserSetting()
 
 # loop
-while True:
+while True: 
     currentState = readUserSetting()
+    
+    if currentState.controlDegree != previousState.controlDegree:
+        if currentState.controlDegree > 0:
+            if currentState.controlDegree > 1:
+                dlnaActivity = False
+                for i in Check_minidlna():
+                    if float(i) > 0:
+                        dlnaActivity = True
+
+                if dlnaActivity:
+                    currentState.peer2peer = 0
+                else:
+                    currentState.peer2peer = 1
+
+                currentState.save()
+
+            if len(detectScreen()) == 2: # Others screen was on
+                currentState.homeEntertain = 1
+                currentState.mediaSharing = 0
+            else:
+                currentState.homeEntertain = 0
+                currentState.mediaSharing = 1
+            currentState.save()
+
     if currentState.mediaSharing != previousState.mediaSharing:
         if currentState.mediaSharing == 1: 
-            os.popen("sudo service minidlna restart", 'w').write(mySudoPass)
+            os.system("minidlnad -f /home/kong/.minidlna/minidlna.conf -P /home/kong/.minidlna/minidlna.pid")
         else:
-            os.popen("sudo service minidlna stop", 'w').write(mySudoPass)
+            os.system("xargs kill </home/kong/.minidlna/minidlna.pid")
     
     if currentState.homeEntertain != previousState.homeEntertain:
         if currentState.homeEntertain == 1:
@@ -103,9 +118,9 @@ while True:
 
     if currentState.peer2peer != previousState.peer2peer:
         if currentState.peer2peer == 1:
-            os.popen("sudo service transmission-daemon start", 'w').write(mySudoPass)
+            os.system('deluge &')
         else:
-            os.popen("sudo service transmission-daemon stop", 'w').write(mySudoPass)
+            os.system('pkill deluge')
 
     previousState = currentState
     time.sleep(2)

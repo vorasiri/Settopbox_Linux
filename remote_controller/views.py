@@ -22,11 +22,6 @@ def home(request):
             fs = FileSystemStorage(location = '/home/kong/djangoProject/Settopbox_Linux/torrentFiles/')
             filename = fs.save(myfile.name, myfile)
             uploaded_file_url = fs.url(filename)
-            if '.torrent' in filename:
-                os.system("transmission-remote -n 'transmission:transmission' -a \'" + os.path.abspath('torrentFiles/'+filename) + "\'")
-                print('start downloading: ' + filename)
-            else:
-                print('bad file')
 
         state.save()
         return HttpResponseRedirect('/')

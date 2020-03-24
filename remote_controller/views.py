@@ -28,6 +28,9 @@ def home(request):
             else:
                 print('bad file')
 
+        state.save()
+        return HttpResponseRedirect('/')
+
     else:
         if request.GET.get('pills'):
             mode = request.GET.get('pills')
